@@ -1,24 +1,43 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Login from "../views/Login";
+import Home from "../views/Home";
+import axios from "axios";
+import VueAxios from "vue-axios";
+import FriendChat from "../views/chat/FriendChat";
+import AdminInfo from "@/views/AdminInfo";
 
-Vue.use(VueRouter)
 
+Vue.use(VueRouter);
+Vue.use(VueAxios, axios);
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Login',
+    component: Login,
+    hidden: true
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/home',
+    name: 'Home',
+    component: Home,
+    children: [
+      {
+        path: '/chat',
+        name: '在线聊天',
+        component: FriendChat,
+        hidden: true
+      },
+      {
+        path: '/userinfo',
+        name: '个人中心',
+        component: AdminInfo
+      }
+      ]
   }
-]
+
+
+];
 
 const router = new VueRouter({
   routes
